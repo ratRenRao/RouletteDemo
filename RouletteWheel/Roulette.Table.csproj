@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <TargetFramework>netcoreapp1.1</TargetFramework>
+    <ApplicationIcon />
+    <OutputTypeEx>library</OutputTypeEx>
+    <StartupObject />
+    <AssemblyName>Roulette.Table</AssemblyName>
+    <RootNamespace>Roulette.Table</RootNamespace>
+  </PropertyGroup>
+
+</Project>

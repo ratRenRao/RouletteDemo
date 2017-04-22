@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26228.9
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Roulette.StrategyDemo", "RouletteStrategyDemo\Roulette.StrategyDemo.csproj", "{6787D6C0-81E6-4B26-89C2-1D9DA77DFDCF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Roulette.Table", "RouletteWheel\Roulette.Table.csproj", "{C5092FC2-5460-4FB4-94A4-89249427DC88}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Roulette.Test", "Roulette.Test\Roulette.Test.csproj", "{12B54CBE-6136-4D75-B677-566E3A9ADF19}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6787D6C0-81E6-4B26-89C2-1D9DA77DFDCF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6787D6C0-81E6-4B26-89C2-1D9DA77DFDCF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6787D6C0-81E6-4B26-89C2-1D9DA77DFDCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6787D6C0-81E6-4B26-89C2-1D9DA77DFDCF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C5092FC2-5460-4FB4-94A4-89249427DC88}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C5092FC2-5460-4FB4-94A4-89249427DC88}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C5092FC2-5460-4FB4-94A4-89249427DC88}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C5092FC2-5460-4FB4-94A4-89249427DC88}.Release|Any CPU.Build.0 = Release|Any CPU
+		{12B54CBE-6136-4D75-B677-566E3A9ADF19}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{12B54CBE-6136-4D75-B677-566E3A9ADF19}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{12B54CBE-6136-4D75-B677-566E3A9ADF19}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{12B54CBE-6136-4D75-B677-566E3A9ADF19}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
