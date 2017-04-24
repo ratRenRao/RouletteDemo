@@ -1,8 +1,4 @@
-﻿using System;
-using Roulette.StrategyDemo;
-using Roulette.Table;
-using RouletteStrategyDemo;
-using Shouldly;
+﻿using Roulette.StrategyDemo;
 using Xunit;
 
 namespace Roulette.Test

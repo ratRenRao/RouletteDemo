@@ -1,7 +1,6 @@
 ﻿using System;
-using Roulette.StrategyDemo;
 
-namespace RouletteStrategyDemo
+namespace Roulette.StrategyDemo
 {
     class Program
     {

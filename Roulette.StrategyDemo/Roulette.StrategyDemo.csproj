@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\RouletteWheel\Roulette.Table.csproj" />
+    <ProjectReference Include="..\Roulette.Table\Roulette.Table.csproj" />
   </ItemGroup>
 
 </Project>

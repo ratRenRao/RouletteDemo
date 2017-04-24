@@ -12,8 +12,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\RouletteStrategyDemo\Roulette.StrategyDemo.csproj" />
-    <ProjectReference Include="..\RouletteWheel\Roulette.Table.csproj" />
+    <ProjectReference Include="..\Roulette.StrategyDemo\Roulette.StrategyDemo.csproj" />
+    <ProjectReference Include="..\Roulette.Table\Roulette.Table.csproj" />
   </ItemGroup>
 
   <ItemGroup>
