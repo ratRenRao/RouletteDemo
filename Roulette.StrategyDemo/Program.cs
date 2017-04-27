@@ -6,7 +6,10 @@ namespace Roulette.StrategyDemo
     {
         static void Main()
         {
-            new DoubleDownStrategy().Run(20, 10000d);
+            new DoubleDownStrategy().Run(200, 10000d);
+            Console.WriteLine($"Longest loss streak: {Streak.LongestLossStreak}");
+            Console.WriteLine($"Longest win streak: {Streak.LongestWinStreak}");
+            Console.WriteLine("GAME OVER");
             Console.ReadKey();
         }
     }

@@ -4,14 +4,15 @@ using Roulette.Table;
 
 namespace Roulette.StrategyDemo
 {
-    public class DoubleDownStrategy
+    public class DoubleDownStrategy : IDoubleDownStrategy
     {
         public List<BetResult> BetResults = new List<BetResult>();
         private Bet _lastBet = null; 
-        public double Funds { get; private set; }
+        public double Funds { get; set; }
         public RouletteTable Table = new RouletteTable(false);
         private Streak _streak = new Streak();
-        private int maxPlannedForLossStreak = 10;
+        public int MaxPlannedForLossStreak = 10;
+        private double _betIncrement = 0.5d;
 
         public void Run(int totalRounds, double funds)
         {
@@ -22,43 +23,29 @@ namespace Roulette.StrategyDemo
                 Table.StartNextRound();
                 double betAmount;
 
-                //if (_streak.Length == 0)
-                //{
-                //    PlaceBet(1d, BetType.Color, SlotColor.Black, 2d);
-                //}
                 if (_streak.StreakType == BetResult.Win)
                 {
-                    //if (_streak.Length == 1)
                     betAmount = CalculateMaxStartingBetForPlannedLossStreak();
                     if (betAmount == 0)
                     {
                         Console.WriteLine("Not Enough Funds To Place A Bet Based On Planned Max Loss Streak");
                         return;
                     }
-                    //else
-                    //{
-                    //    if (_streak.Length >= 3)
-                    //    {
-                    //        betAmount = CalculateMaxStartingBetForPlannedLossStreak();
-                    //        _streak.Length = 1;
-                    //    }
-                    //    else
-                    //    {
-                    //        betAmount = _lastBet.Amount * 2;
-                    //    }
-                    //}
-
-                    //if(_streak.Length >= 4)
-                    //    Console.WriteLine("Awesome");
-
-                   //PlaceBet(betAmount, BetType.Color, SlotColor.Black, 2d);
                 }
                 else
                 {
                     if (_streak.Length == 1)
                         betAmount = _lastBet.Amount;
                     else
-                        betAmount = _lastBet.Amount * 2;
+                    {
+                        if(Funds - (_lastBet.Amount * 2) > 0)
+                            betAmount = _lastBet.Amount * 2;
+                        else
+                        {
+                            Console.WriteLine("Loss streak exceeded planned streak length");
+                            return;
+                        }
+                    }
                 }
 
                 PlaceBet(betAmount, BetType.Color, SlotColor.Black, 2d);
@@ -104,34 +91,32 @@ namespace Roulette.StrategyDemo
             _lastBet = bet;
         }
 
-        public double CalculateMaxStartingBetForPlannedLossStreak()
+        public double CalculateMaxStartingBetForPlannedLossStreak(double startingBet = 1)
         {
-            double startingBet = 0;
-            double requiredFunds;
-
-            do
+            while (true)
             {
-                startingBet++;
-                requiredFunds = CalculateRequiredFundsForMaxPlannedLossStreak(startingBet, maxPlannedForLossStreak);
-            } while (requiredFunds < Funds);
+                var requiredFunds = CalculateRequiredFundsForMaxPlannedLossStreak(startingBet);
 
-            return --startingBet;
+                if (requiredFunds > Funds)
+                {
+                    startingBet -= _betIncrement;
+                    return startingBet;
+                }
+                else
+                {
+                    startingBet += _betIncrement;
+                }
+            }
         }
 
-        public double CalculateRequiredFundsForMaxPlannedLossStreak(double startingAmountLost, int maxLossStreak)
+        public double CalculateRequiredFundsForMaxPlannedLossStreak(double currentAmountLost = 0.5, int lossStreakLength = 0)
         {
-            var index = 1;
-            double lastAmountBet = startingAmountLost;
-            double totalRequiredFunds = startingAmountLost;
-
-            while (index < maxLossStreak)
+            while (true)
             {
-                lastAmountBet *= 2;
-                totalRequiredFunds += lastAmountBet;
-                index++;
+                currentAmountLost *= 2;
+                if (lossStreakLength + 1 == MaxPlannedForLossStreak) return currentAmountLost;
+                lossStreakLength = ++lossStreakLength;
             }
-
-            return totalRequiredFunds;
         }
     }
 
@@ -157,7 +142,25 @@ namespace Roulette.StrategyDemo
             }
         }
 
-        public int Length { get; set; }
+        public static int LongestLossStreak { get; set; }
+        public  static int LongestWinStreak { get; set; }
+
+        private int _length;
+        public int Length
+        {
+            get { return _length; }
+            set
+            {
+                if (_streakType == BetResult.Win
+                    && _length > LongestWinStreak)
+                    LongestWinStreak = _length;
+                if (_streakType == BetResult.Loss
+                    && _length > LongestWinStreak)
+                    LongestLossStreak = _length;
+
+                _length = value;
+            } 
+        }
 
         public override string ToString()
         {
