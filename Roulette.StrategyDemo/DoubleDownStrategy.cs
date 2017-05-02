@@ -9,14 +9,19 @@ namespace Roulette.StrategyDemo
         public List<BetResult> BetResults = new List<BetResult>();
         private Bet _lastBet = null; 
         public double Funds { get; set; }
-        public RouletteTable Table = new RouletteTable(false);
+        public RouletteTable Table = new RouletteTable(true);
         private Streak _streak = new Streak();
-        public int MaxPlannedForLossStreak = 10;
+        public int MaxPlannedForLossStreak = 12;
         private double _betIncrement = 0.5d;
+
+        public double LargestFundSnapshot;
+        public double SmallestFundSnapshot;
 
         public void Run(int totalRounds, double funds)
         {
             Funds = funds;
+            LargestFundSnapshot = Funds;
+            SmallestFundSnapshot = Funds;
 
             for(var i = 0; i < totalRounds; i++)
             {
@@ -61,6 +66,21 @@ namespace Roulette.StrategyDemo
 
         private void UpdateStats(Slot spinResult)
         {
+            UpdateStreakStats(spinResult);
+            UpdateFundStats();
+        }
+
+        private void UpdateFundStats()
+        {
+            if (Funds > LargestFundSnapshot)
+                LargestFundSnapshot = Funds;
+            if (Funds < SmallestFundSnapshot)
+                SmallestFundSnapshot = Funds;
+        }
+
+
+        private void UpdateStreakStats(Slot spinResult)
+        { 
             if (spinResult.Color == _lastBet.Color)
             {
                 if(_streak.StreakType != BetResult.Win)

@@ -6,7 +6,11 @@ namespace Roulette.StrategyDemo
     {
         static void Main()
         {
-            new DoubleDownStrategy().Run(200, 10000d);
+            var looper = new StrategyLooper(10, 200, 10000d);
+            looper.Run();
+            Console.WriteLine($"Largest funds: {looper.MaxFunds}");
+            Console.WriteLine($"Smallest funds: {looper.MinFunds}");
+            Console.WriteLine("=================================================");
             Console.WriteLine($"Longest loss streak: {Streak.LongestLossStreak}");
             Console.WriteLine($"Longest win streak: {Streak.LongestWinStreak}");
             Console.WriteLine("GAME OVER");
