@@ -9,10 +9,11 @@ namespace Roulette.StrategyDemo
         public List<BetResult> BetResults = new List<BetResult>();
         private Bet _lastBet = null; 
         public double Funds { get; set; }
-        public RouletteTable Table = new RouletteTable(true);
+        public IRouletteTable Table = new RouletteTable(true);
         private Streak _streak = new Streak();
         public int MaxPlannedForLossStreak = 12;
         private double _betIncrement = 0.5d;
+        public int RoundNumber = 0;
 
         public double LargestFundSnapshot;
         public double SmallestFundSnapshot;
@@ -25,7 +26,8 @@ namespace Roulette.StrategyDemo
 
             for(var i = 0; i < totalRounds; i++)
             {
-                Table.StartNextRound();
+                Table.StartNewRound();
+                RoundNumber++;
                 double betAmount;
 
                 if (_streak.StreakType == BetResult.Win)
@@ -47,13 +49,13 @@ namespace Roulette.StrategyDemo
                             betAmount = _lastBet.Amount * 2;
                         else
                         {
-                            Console.WriteLine("Loss streak exceeded planned streak length");
+                            OutOfFunds();
                             return;
                         }
                     }
                 }
 
-                PlaceBet(betAmount, BetType.Color, SlotColor.Black, 2d);
+                PlaceBet(betAmount, BetType.Color, SlotColor.Red, 2d);
 
                 var spinResult = Table.SpinWheel();
                 var winnings = Table.PayoutWinnings();
@@ -62,6 +64,11 @@ namespace Roulette.StrategyDemo
                 UpdateStats(spinResult);
                 Console.WriteLine($"{_streak} : ${betAmount} : ${Funds}");
             }
+        }
+
+        public void OutOfFunds()
+        {
+            Console.WriteLine("Loss streak exceeded planned streak length");
         }
 
         private void UpdateStats(Slot spinResult)
@@ -100,19 +107,16 @@ namespace Roulette.StrategyDemo
         public void PlaceBet(double amount, BetType betType, SlotColor color, double payoutMultiplier)
         {
             Funds -= amount;
-            var bet = new Bet
-                    {
-                        Amount = amount,
-                        BetType = betType,
-                        Color = color,
-                        PayoutMultiplier = payoutMultiplier
-                    };
+            var bet = new ColorBet(amount, color);
             Table.PlaceBet(bet);
             _lastBet = bet;
         }
 
-        public double CalculateMaxStartingBetForPlannedLossStreak(double startingBet = 1)
+        public double CalculateMaxStartingBetForPlannedLossStreak(double startingBet = 0)
         {
+            if (startingBet == 0)
+                startingBet = _betIncrement;
+
             while (true)
             {
                 var requiredFunds = CalculateRequiredFundsForMaxPlannedLossStreak(startingBet);
@@ -129,7 +133,7 @@ namespace Roulette.StrategyDemo
             }
         }
 
-        public double CalculateRequiredFundsForMaxPlannedLossStreak(double currentAmountLost = 0.5, int lossStreakLength = 0)
+        public double CalculateRequiredFundsForMaxPlannedLossStreak(double currentAmountLost, int lossStreakLength = 1)
         {
             while (true)
             {

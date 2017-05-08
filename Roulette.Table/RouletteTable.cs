@@ -64,7 +64,7 @@ namespace Roulette.Table
             return winnings;
         }
 
-        public void StartNextRound()
+        public void StartNewRound()
         {
             _bets.Clear();
         }

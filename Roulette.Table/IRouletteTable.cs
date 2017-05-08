@@ -9,6 +9,6 @@ namespace Roulette.Table
         Slot SpinWheel();
         void PlaceBet(Bet bet);
         double PayoutWinnings();
-        void StartNextRound();
+        void StartNewRound();
     }
 }

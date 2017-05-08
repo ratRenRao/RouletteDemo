@@ -18,13 +18,7 @@ namespace Roulette.Test
                 Number = 1
             });
 
-            Table.PlaceBet(new Bet
-            {
-                Amount = 2,
-                BetType = BetType.Color,
-                Color = SlotColor.Red,
-                PayoutMultiplier = 2
-            });
+            Table.PlaceBet(new ColorBet(2, SlotColor.Red));
 
             var payout = Table.PayoutWinnings();
             
